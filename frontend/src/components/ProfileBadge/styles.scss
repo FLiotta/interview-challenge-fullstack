@@ -1,0 +1,54 @@
+@import '../../styles/colors.scss';
+
+.profilebadge {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: 0.5s all;
+  position: relative;
+
+  &:hover {
+    background-color: #eee;
+  }
+
+  &--active {
+    background-color: #eee;
+  }
+
+  &__username {
+    font-family: 'montserrat';
+    margin-bottom: 0px;
+    margin-right: 15px;
+  }
+
+  &__menu {
+    position: absolute;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid $brand_color;
+    top: 55px;
+    left: 0px;
+    border-radius: 6px;
+    overflow: hidden;
+
+    &-item {
+      width: 100%;
+      padding: 15px;
+      color: $brand_color;
+      margin-bottom: 0px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: #eee;
+      }
+
+      &-text {
+        margin-left: 10px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

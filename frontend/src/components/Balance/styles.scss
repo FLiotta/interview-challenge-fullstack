@@ -1,0 +1,19 @@
+.balance {
+  width: 500px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  background-color: #fff;
+  transition: .5s all;
+  position: relative;
+
+  &__positive-amount {
+    color: #22AF78;
+  }
+
+  &__negative-amount {
+    color: rgb(131, 131, 131);
+  }
+}

@@ -1,0 +1,144 @@
+@import '../../styles/colors.scss';
+
+.account-selector {
+  width: 500px;
+  height: 150px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  cursor: pointer;
+  background-color: #fff;
+  transition: .5s all;
+  position: relative;
+
+  &:hover {
+    background-color: #fbfbfb;
+    box-shadow:
+      0 3.5px 5.3px rgba(0, 0, 0, 0.028),
+      0 11.8px 17.9px rgba(0, 0, 0, 0.042),
+      0 53px 80px rgba(0, 0, 0, 0.07)
+    ;
+  }
+
+  &__image {
+    height: 100px;
+    width: 100px;
+    border: 2px dotted $brand_color;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-symbol {
+      margin-bottom: 0px;
+      font-family: 'montserrat';
+      font-weight: 900;
+    }
+  }
+
+  &__info {
+    flex-grow: 1;
+    padding: 0 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__name {
+    margin-bottom: 0px;
+    font-family: 'montserrat';
+    font-weight: 700;
+  }
+
+  &__date {
+    margin-bottom: 0px;
+    color: #bfbfbf;
+  }
+
+  &__funds {
+    margin-bottom: 0px;
+    line-height: 1;
+  }
+
+  &__placeholder {
+    flex-grow: 1;
+    padding: 0 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    &-text {
+      margin-bottom: 0px;
+      color: $brand_color;
+      font-family: 'montserrat';
+    }
+  }
+}
+
+.account-dropdown {
+  width: 100%;
+  height: 250px;
+  overflow-y: auto;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  top: 160px;
+  border: 1px solid $brand_color;
+  z-index: 10;
+  border-radius: 8px;
+  box-shadow:
+    0 3.5px 5.3px rgba(0, 0, 0, 0.028),
+    0 11.8px 17.9px rgba(0, 0, 0, 0.042),
+    0 53px 80px rgba(0, 0, 0, 0.07)
+  ;
+
+  &__item {
+    display: flex;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s all;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &--selected {
+      background-color: $brand_color;
+      color: #fff;
+
+      .account-dropdown__item-symbol {
+        background-color: $brand_color_light;
+        color: $brand_color;
+      }
+
+      &:hover {
+        background-color: $brand_color;
+      }
+    }
+
+    &-name {
+      margin-bottom: 0px;
+      line-height: 1;
+      margin-left: 15px;
+    }
+
+    &-funds {
+      margin-bottom: 0px;
+      line-height: 1;
+      margin-left: auto;
+    }
+
+    &-symbol {
+      padding: 7px 11px;
+      background-color: $brand_color;
+      border-radius: 50%;
+      margin-bottom: 0px;
+      line-height: 1;
+      color: #fff;
+    }
+  }
+}

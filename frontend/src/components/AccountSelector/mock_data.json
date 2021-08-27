@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Vacaciones",
+    "currency": {
+      "id": 1,
+      "name": "Dolar",
+      "symbol": "$"
+    },
+    "funds": 2500
+  },
+  {
+    "id": 2,
+    "name": "Caja de ahorro",
+    "currency": {
+      "id": 1,
+      "name": "Dolar",
+      "symbol": "$"
+    },
+    "funds": 500
+  },
+  {
+    "id": 3,
+    "name": "Freelance EU",
+    "currency": {
+      "id": 2,
+      "name": "Euro",
+      "symbol": "€"
+    },
+    "funds": 932
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "amount": 500,
+    "date": "18/02/1999",
+    "currency": {
+      "id": 1,
+      "name": "Dolar",
+      "symbol": "$"
+    },
+    "receiver": {
+      "id": 1,
+      "username": "Mr. X"
+    },
+    "sender": {
+      "id": 2,
+      "username": "Mr. Y"
+    }
+  },
+  {
+    "id": 2,
+    "amount": 1500,
+    "date": "18/02/1999",
+    "currency": {
+      "id": 1,
+      "name": "Dolar",
+      "symbol": "$"
+    },
+    "receiver": {
+      "id": 1,
+      "username": "Mr. X"
+    },
+    "sender": {
+      "id": 2,
+      "username": "Mr. Y"
+    }
+  },
+  {
+    "id": 3,
+    "amount": 5000,
+    "date": "18/02/1999",
+    "currency": {
+      "id": 1,
+      "name": "Dolar",
+      "symbol": "$"
+    },
+    "receiver": {
+      "id": 2,
+      "username": "Mr. Y"
+    },
+    "sender": {
+      "id": 1,
+      "username": "Mr. Z"
+    }
+  }
+]
