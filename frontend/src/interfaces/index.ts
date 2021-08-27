@@ -7,6 +7,25 @@ import { AnyAction } from "redux";
 
 export interface IThunkDispatch extends ThunkDispatch<IStoreState, any, AnyAction> {}
 
+export interface BackendResponse<T> {
+  error?: string
+  message?: string
+  data: T | any
+  metadata?: {
+    total: number
+  }
+}
+
+export interface Profile {
+  id: number
+  username: string,
+  first_name?: string
+  last_name?: string
+  email?: string
+  is_superuser: boolean,
+  is_staff: boolean
+}
+
 export interface Currency {
   id: number,
   name: string,

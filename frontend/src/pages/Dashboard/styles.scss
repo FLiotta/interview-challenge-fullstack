@@ -5,4 +5,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__ctas {
+    margin: 20px 0;
+    width: 500px;
+    border-radius: 6px;
+    overflow: hidden;
+  } 
 }

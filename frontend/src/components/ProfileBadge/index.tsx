@@ -8,7 +8,7 @@ import cn from 'classnames';
 
 // @Project
 import { disconnect } from 'actions/session';
-import { selectSessionId } from 'selectors/session'; 
+import { selectProfile } from 'selectors/profile';
 import Avatar from 'components/Avatar';
 
 // @Own
@@ -49,8 +49,8 @@ const Menu: React.FC<any> = () => {
 }
 
 const ProfileBadge: React.FC<any> = () => {
-  const sessionId = useSelector(selectSessionId);
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const profile = useSelector(selectProfile);
 
   return (
     <div
@@ -58,8 +58,8 @@ const ProfileBadge: React.FC<any> = () => {
       onClick={() => setMenuVisible(!menuVisible)}
     >
       {menuVisible && <Menu />}
-      <p className="profilebadge__username">Lorem Ipsum</p>
-      <Avatar userId={sessionId} height={30} width={30} />
+      <p className="profilebadge__username">{profile.first_name} {profile.last_name}</p>
+      <Avatar userId={profile.id} height={30} width={30} />
     </div>
   )
 }

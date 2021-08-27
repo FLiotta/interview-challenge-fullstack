@@ -1,5 +1,7 @@
 .balance {
   width: 500px;
+  max-width: 100%;
+  overflow-x: auto;
   border: 1px solid #eee;
   border-radius: 8px;
   display: flex;

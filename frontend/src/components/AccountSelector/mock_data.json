@@ -18,15 +18,5 @@
       "symbol": "$"
     },
     "funds": 500
-  },
-  {
-    "id": 3,
-    "name": "Freelance EU",
-    "currency": {
-      "id": 2,
-      "name": "Euro",
-      "symbol": "€"
-    },
-    "funds": 932
   }
 ]

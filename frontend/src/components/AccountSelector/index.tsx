@@ -13,6 +13,10 @@ interface IAccountSelectorDropdown {
   onAccountSelect: (acc: Account) => void
 }
 
+interface IAccountSelector {
+  onAccountSelect: (acc: Account) => void
+}
+
 const AccountSelectorList: React.FC<IAccountSelectorDropdown> = ({
   selectedAccountId,
   onAccountSelect
@@ -23,6 +27,7 @@ const AccountSelectorList: React.FC<IAccountSelectorDropdown> = ({
     <div className="account-dropdown">
       {accounts.map((acc) => (
         <div
+          key={`${acc.id}`}
           onClick={() => onAccountSelect(acc)}
           className={cn("account-dropdown__item", {
             "account-dropdown__item--selected": acc.id === selectedAccountId
@@ -37,9 +42,17 @@ const AccountSelectorList: React.FC<IAccountSelectorDropdown> = ({
   )
 }
 
-const AccountSelector: React.FC<any> = () => {  
+const AccountSelector: React.FC<IAccountSelector> = ({
+  onAccountSelect
+}) => {  
   const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+
+  const handleOnAccountSelect = (acc: Account) => {
+    setDropdownVisible(false);
+    onAccountSelect(acc);
+    setSelectedAccount(acc);
+  }
 
   return (
     <div
@@ -49,7 +62,7 @@ const AccountSelector: React.FC<any> = () => {
       {dropdownVisible && (
         <AccountSelectorList
           selectedAccountId={selectedAccount?.id}
-          onAccountSelect={setSelectedAccount}
+          onAccountSelect={handleOnAccountSelect}
         />
       )} 
       <div className="account-selector__image">
@@ -69,6 +82,8 @@ const AccountSelector: React.FC<any> = () => {
             <h4 className="account-selector__funds">
               {selectedAccount.currency?.symbol} {selectedAccount.funds}
             </h4>
+
+          <h6 className="account-selector__id">#{selectedAccount.id}</h6>
           </div>
         )
         : (

@@ -36,7 +36,8 @@ if(refreshToken) {
       store.dispatch(reconnect(payloadToReconnect));
 
       cogoToast.success('Bienvenido devuelta!', {
-        position: 'bottom-right'
+        position: 'bottom-right',
+        renderIcon: () => '🥳'
       })
     })
 }

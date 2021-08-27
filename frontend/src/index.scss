@@ -1,3 +1,19 @@
+@import './styles/colors.scss';
+
+$theme-colors: (
+  "brand": $brand_color,
+  "brand-secondary": $brand_color_light,
+);
+
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints";
+
+.btn-brand-secondary, .btn-brand-secondary:hover {
+  color: $brand_color;
+}
+
 body, #root {
   margin: 0;
   padding: 0;

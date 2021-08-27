@@ -53,7 +53,7 @@ const AuthForm: React.FC<IFormProps> = ({
           {...register('password', { required: true })}
         />
       </div>
-      <button className="btn btn-primary btn-sm mt-4">
+      <button className="btn btn-brand btn-sm mt-4 rounded-pill">
         {mode === 'login' ? 'Ingresar' : 'Registrarse'}
       </button>
     </form>
@@ -114,8 +114,8 @@ const Auth: React.FC<any> = () => {
         />
 
         {mode === 'login'
-          ? <button className="btn btn-link" onClick={() => setMode('signup')}>Crear cuenta 🤗</button>
-          : <button className="btn btn-link" onClick={() => setMode('login')}>Ya tengo una cuenta 🤗</button>
+          ? <button className="btn btn-link text-decoration-none" onClick={() => setMode('signup')}>Crear cuenta 🤗</button>
+          : <button className="btn btn-link text-decoration-none" onClick={() => setMode('login')}>Ya tengo una cuenta 🤗</button>
         }
         
       </div>

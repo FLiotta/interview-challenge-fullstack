@@ -11,7 +11,7 @@ import {
 export interface IState {
   token?: string
   refresh_token: string;
-  user_id: number;
+  id: number;
 }
 
 const defaultState: Partial<IState> = { }

@@ -28,7 +28,7 @@ const Balance: React.FC<any> = () => {
         </thead>
         <tbody>
           {operations.map((op) => (
-            <tr>
+            <tr key={`op_${op.id}`}>
               <th scope="row">{op.id}</th>
               <td>{op.date}</td>
               <td>{op.receiver.id === sessionId ? 'You' : op.receiver.username}</td>
