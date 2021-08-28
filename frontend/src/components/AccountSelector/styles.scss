@@ -38,7 +38,7 @@
       font-weight: 900;
     }
 
-    @media screen and (max-width: 425px) {
+    @media screen and (max-width: 480px) {
       display: none;
     }
   }
@@ -57,11 +57,13 @@
     margin-bottom: 0px;
     font-family: 'montserrat';
     font-weight: 700;
+    width: fit-content;
   }
 
   &__date {
     margin-bottom: 0px;
     color: #bfbfbf;
+    width: 100px;
   }
 
   &__funds {
@@ -148,12 +150,21 @@
     }
 
     &-symbol {
-      padding: 7px 11px;
       background-color: $brand_color;
       border-radius: 50%;
       margin-bottom: 0px;
       line-height: 1;
       color: #fff;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      & > span {
+        margin-bottom: 0px;
+        font-family: 'montserrat';
+      }
     }
   }
 }

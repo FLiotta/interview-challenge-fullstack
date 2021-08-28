@@ -5,11 +5,24 @@
   border: 1px solid #eee;
   border-radius: 8px;
   display: flex;
-  align-items: center;
   padding: 25px;
   background-color: #fff;
   transition: .5s all;
   position: relative;
+  flex-direction: column;
+
+  &__title {
+    font-family: 'montserrat';
+  }
+
+  &__body {
+    margin-top: 10px;
+  }
+
+  &__emptystate {
+    display: flex;
+    justify-content: center;
+  }
 
   &__positive-amount {
     color: #22AF78;

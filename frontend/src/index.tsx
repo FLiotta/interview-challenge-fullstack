@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Cookie from 'universal-cookie';
 import cogoToast from 'cogo-toast';
+import ReactTooltip from 'react-tooltip';
 
 // @Project
 import AuthService from 'services/auth';
@@ -45,6 +46,8 @@ if(refreshToken) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ReactTooltip place="right" effect="solid" id="ttip-solid-right" />
+      <ReactTooltip place="top" effect="solid" id="ttip-solid-top" />
       <AppRouter />
     </Provider>
   </React.StrictMode>,

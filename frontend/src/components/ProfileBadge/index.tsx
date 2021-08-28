@@ -27,7 +27,7 @@ const Menu: React.FC<any> = () => {
 
   const options: Option[] = [
     {
-      title: 'Logout',
+      title: 'Cerrar sesión',
       action: () => {
         dispatch(disconnect())
         history.push('/auth')

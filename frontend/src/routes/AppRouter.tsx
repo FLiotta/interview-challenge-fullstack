@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 // @Project
 import { selectSessionToken } from 'selectors/session';
 import { fetchProfile } from 'actions/profile';
+import { fetchAccounts } from 'actions/accounts';
+
+import DepositModal from 'components/DepositModal';
 
 import BaseLayout from 'components/BaseLayout';
 import ProtectedRoute from 'components/ProtectedRoute';
@@ -19,6 +22,7 @@ const AppRouter: React.FC<any> = () => {
   useEffect(() => {
     if(sessionToken) {
       dispatch(fetchProfile())
+      dispatch(fetchAccounts())
     }
   }, [sessionToken]);
 
@@ -27,6 +31,7 @@ const AppRouter: React.FC<any> = () => {
       <Switch>
         <Route path="/auth" component={Auth} />
         <BaseLayout>
+          <DepositModal />
           <ProtectedRoute path="/" component={Dashboard} exact />
         </BaseLayout>
       </Switch>

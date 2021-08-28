@@ -10,7 +10,7 @@ export interface IThunkDispatch extends ThunkDispatch<IStoreState, any, AnyActio
 export interface BackendResponse<T> {
   error?: string
   message?: string
-  data: T | any
+  data: T | T[] | any
   metadata?: {
     total: number
   }
@@ -46,6 +46,7 @@ export interface Operation {
   id: number
   amount: number
   currency: Currency
+  operation_type: 'transfer' | 'deposit'
   receiver: any
   sender: any
   date: string | Date

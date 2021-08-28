@@ -18,7 +18,6 @@ class Account(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING, null=False)
     funds = models.PositiveIntegerField(null=True, default=0)
 
-
     class Meta:
         db_table = "account"
     
@@ -26,9 +25,15 @@ class Account(models.Model):
         return self.name
 
 class Operation(models.Model):
-    sender_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=False, related_name="sender_account")
-    receiver_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=False, related_name="receiver_account")
+    OPERATION_TYPES = [
+        ("transfer", "transfer"),
+        ("deposit", "deposit")
+    ]
+
+    sender_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, related_name="sender_account")
+    receiver_account = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=False, blank=True, related_name="receiver_account")
     currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING, null=False)
+    operation_type = models.CharField(max_length=50, null=False, choices=OPERATION_TYPES)
     amount = models.PositiveIntegerField(null=False)
 
     class Meta:

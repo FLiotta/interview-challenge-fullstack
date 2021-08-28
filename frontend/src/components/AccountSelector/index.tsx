@@ -1,9 +1,13 @@
 // @Packages
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import cn from 'classnames';
+import ReactTooltip from 'react-tooltip';
 
 // @Project
 import { Account } from 'interfaces';
+import { selectAccounts } from 'selectors/accounts';
+
 // @Own
 import MockData from './mock_data.json';
 import './styles.scss';
@@ -21,7 +25,7 @@ const AccountSelectorList: React.FC<IAccountSelectorDropdown> = ({
   selectedAccountId,
   onAccountSelect
 }) => {
-  const [accounts, setAccounts] = useState<Account[]>(MockData)
+  const accounts: Account[] = useSelector(selectAccounts);
 
   return (
     <div className="account-dropdown">
@@ -33,7 +37,9 @@ const AccountSelectorList: React.FC<IAccountSelectorDropdown> = ({
             "account-dropdown__item--selected": acc.id === selectedAccountId
           })}
         >
-          <h5 className="account-dropdown__item-symbol">{acc.currency?.symbol}</h5>
+          <div className="account-dropdown__item-symbol">
+            <span>{acc.currency?.symbol}</span>
+          </div>
           <h5 className="account-dropdown__item-name">{acc.name}</h5>
           <h5 className="account-dropdown__item-funds">${acc.funds}</h5>
         </div>
@@ -54,6 +60,10 @@ const AccountSelector: React.FC<IAccountSelector> = ({
     setSelectedAccount(acc);
   }
 
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  }, [selectedAccount])
+
   return (
     <div
       className="account-selector"
@@ -65,7 +75,7 @@ const AccountSelector: React.FC<IAccountSelector> = ({
           onAccountSelect={handleOnAccountSelect}
         />
       )} 
-      <div className="account-selector__image">
+      <div className="account-selector__image" data-for="ttip-solid-top" data-tip={selectedAccount?.currency?.name}>
         {selectedAccount && (
           <h1 className="account-selector__image-symbol">{selectedAccount.currency?.symbol}</h1>
         )}
@@ -74,8 +84,9 @@ const AccountSelector: React.FC<IAccountSelector> = ({
         ? (
           <div className="account-selector__info">
             <div>
-              <h4 className="account-selector__name">{selectedAccount.name}</h4>
-              <p className="account-selector__date">
+              <h4 className="account-selector__name" data-for="ttip-solid-right" data-tip="Nombre de la cuenta">{selectedAccount.name}</h4>
+              <p className="account-selector__date" data-for="ttip-solid-right" data-tip="Fecha de creacion">
+                {/* TODO: Cambiar por la fecha real cuando se edite el modelo */}
                 <small>18 Feb. 1999</small>
               </p>
             </div>
@@ -83,12 +94,12 @@ const AccountSelector: React.FC<IAccountSelector> = ({
               {selectedAccount.currency?.symbol} {selectedAccount.funds}
             </h4>
 
-          <h6 className="account-selector__id">#{selectedAccount.id}</h6>
+          <h6 className="account-selector__id" data-for="ttip-solid-right" data-tip="Número de cuenta">#{selectedAccount.id}</h6>
           </div>
         )
         : (
           <div className="account-selector__placeholder">
-            <h4 className="account-selector__placeholder-text">Select an account</h4>
+            <h4 className="account-selector__placeholder-text">Selecciona una cuenta</h4>
           </div>
         )}
     </div>

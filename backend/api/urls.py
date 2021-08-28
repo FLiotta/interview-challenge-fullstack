@@ -11,5 +11,10 @@ urlpatterns = [
     path('ping', api.AuthAPI.as_view(), name="Auth"),
 
     # Profile
-    path('profile', api.ProfileAPI.as_view(), name="profile")
+    path('profile', api.ProfileAPI.as_view(), name="profile"),
+
+    # Account
+    path('account', api.AccountAPI.as_view(), name="account"),
+    path('account/<int:account_id>', api.AccountDetailAPI.as_view(), name="account_detail"),
+    path('account/<int:account_id>/deposit', api.AccountDepositAPI.as_view(), name="account_deposit")
 ]

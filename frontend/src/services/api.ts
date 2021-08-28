@@ -39,6 +39,10 @@ class ApiService {
     return this.http.post(path, data, config);
   }
 
+  patch(path: string, data?: any, config?: AxiosRequestConfig) {
+    return this.http.patch(path, data, config);
+  }
+
   // @ping
   ping() {
     return this.http.get('/ping');
