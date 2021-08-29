@@ -20,6 +20,7 @@ class Account(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False)
     currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING, null=False)
     funds = models.PositiveIntegerField(null=True, default=0)
+    deposit_address = models.CharField(max_length=100, null=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 

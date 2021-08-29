@@ -3,6 +3,7 @@ from __future__ import annotations
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Account, Currency, Operation
+from .utils import generate_address
 
 class UserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
@@ -27,6 +28,7 @@ class AccountSerializer(serializers.Serializer):
     owner_id = serializers.IntegerField()
     created_at = serializers.DateField(required=False)
     updated_at = serializers.DateField(required=False)
+    deposit_address = serializers.CharField(required=False)
 
     def create(self, validated_data):
         instance = Account()
@@ -35,13 +37,11 @@ class AccountSerializer(serializers.Serializer):
         instance.funds = 0
         instance.currency_id = validated_data.get('currency_id')
         instance.name = validated_data.get('name')
+        instance.deposit_address = generate_address()
+
         instance.save()
 
         return instance
-
-    
-        
-
 
 class OperationSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()

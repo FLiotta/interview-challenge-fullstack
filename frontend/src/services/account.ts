@@ -10,6 +10,13 @@ class ProfileService extends ApiService {
     return this.post('/account', { currency_id, name });
   }
 
+  transfer(accountId: number, amount: number, depositAddress: string) {
+    return this.post(`/account/${accountId}/send`, {
+      deposit_address: depositAddress,
+      amount
+    })
+  }
+
   getAccountOperations(accountId: number) {
     return this.get(`/account/${accountId}/operations`);
   }

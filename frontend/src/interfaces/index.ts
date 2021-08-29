@@ -42,6 +42,7 @@ export interface Account {
   owner?: any,
   created_at?: Date,
   updated_at?: Date
+  deposit_address: string
 }
 
 export interface Operation {  

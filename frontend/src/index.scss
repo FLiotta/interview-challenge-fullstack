@@ -10,7 +10,10 @@ $theme-colors: (
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins/_breakpoints";
 
-.btn-brand-secondary, .btn-brand-secondary:hover {
+.btn-brand-secondary,
+.btn-brand-secondary:hover,
+.btn-brand-secondary:active,
+.btn-brand-secondary:focus {
   color: $brand_color;
 }
 

@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 
 // @Project
 import CreateAccountModal from 'components/CreateAccountModal';
+import TransferMoneyModal from 'components/TransferMoneyModal';
 import DepositModal from 'components/DepositModal';
 import { selectProfile } from 'selectors/profile';
 import AccountSelector from 'components/AccountSelector';
@@ -23,6 +24,7 @@ const Dashboard: React.FC<any> = () => {
   const selectedAccount = useSelector(selectSelectedAccount);
   const selectedOperations = useSelector(selectOperations);
 
+  const [transferModalVisible, setTransferModalVisible] = useState<boolean>(false);
   const [depositModalVisible, setDepositModalVisible] = useState<boolean>(false);
   const [createAccountModalVisible, setCreateAccountModalVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -40,8 +42,7 @@ const Dashboard: React.FC<any> = () => {
   }
 
   const handleReceive = () => {
-    // TODO: Remplazar por direccion cuando se edite el modelo
-    const copyToClipboard = `Propietario: ${profile.first_name} ${profile.last_name}\nCuenta N°${selectedAccount?.id}\nDireccion para depositar: Panqueques.zapatilla.corbata\nDivisa: ${selectedAccount?.currency?.name}`
+    const copyToClipboard = `Propietario: ${profile.first_name} ${profile.last_name}\nCuenta N°${selectedAccount?.id}\nDireccion para depositar: ${selectedAccount?.deposit_address}\nDivisa: ${selectedAccount?.currency?.name}`
 
     navigator.clipboard.writeText(copyToClipboard);
 
@@ -50,7 +51,9 @@ const Dashboard: React.FC<any> = () => {
     })
   }
 
-  const handleSend = () => { }
+  const handleSend = () => {
+    setTransferModalVisible(true);
+  }
 
   const onAccountSelect = (acc: Account) => {
     dispatch(selectAccount(acc));
@@ -64,6 +67,14 @@ const Dashboard: React.FC<any> = () => {
     }
   }
 
+  const onTransferModalSuccess = (transferedMount: number) => {
+    if(selectedAccount) {
+      setTransferModalVisible(false);
+      dispatch(fetchOperations());
+      dispatch((updateAccountValue(selectedAccount.id, transferedMount, 'decrease')));
+    }
+   }
+
   const onCreateAccountModalSuccess = () => {
     dispatch(fetchAccounts())
     setCreateAccountModalVisible(false);
@@ -76,6 +87,14 @@ const Dashboard: React.FC<any> = () => {
           visible={depositModalVisible}
           onClose={() => setDepositModalVisible(false)}
           onSuccess={onDepositModalSuccess}
+          account={selectedAccount}
+        />
+      )}
+      {selectedAccount && (
+        <TransferMoneyModal
+          visible={transferModalVisible}
+          onClose={() => setTransferModalVisible(false)}
+          onSuccess={onTransferModalSuccess}
           account={selectedAccount}
         />
       )}

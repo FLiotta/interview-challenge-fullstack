@@ -12,10 +12,11 @@ import { selectCurrencies } from 'selectors/app';
 
 // @Own
 import './styles.scss';
+import selectedAccount from 'reducers/selectedAccount';
 
 interface FormPayload { 
-  name?: string
-  currency_id: number
+  depositAddress: string
+  amount: number
 }
 
 const customStyles: Styles = {
@@ -40,34 +41,37 @@ Modal.setAppElement('#root');
 interface IProps {
   visible: boolean,
   onClose: () => void
-  onSuccess: () => void
+  onSuccess: (transferedAmount: number) => void
+  account: Account
 }
 
-const CreateAccountModal: React.FC<IProps> = ({
+const DepositModal: React.FC<IProps> = ({
   visible,
   onClose,
   onSuccess,
+  account,
 }) => {
   const { register, handleSubmit, reset } = useForm();
   const [loading, setLoading] = useState<boolean>(false);
-  const currencies = useSelector(selectCurrencies);
 
   const handleFormSubmit = (payload: FormPayload) => {
-    const { name, currency_id } = payload;
+    const amount = Number(payload.amount);
+    const depositAddress = payload.depositAddress;
+
     setLoading(true);
 
-    AccountService.create(currency_id, name)
+    AccountService.transfer(account.id, amount, depositAddress)
       .then((resp) => {
         console.warn("Se esta simulando un tiempo de 2s solo por fines esteticos =)")
-        cogoToast.success('Cuenta creada con exito!', {
+        cogoToast.success('Transferencia realizada con exito!', {
           position: 'bottom-right'
         })
         reset()
-        onSuccess();
+        onSuccess(amount);
         setLoading(false)
       })
       .catch(() => {
-        cogoToast.error('Hubo un problema con la creacion de tu cuenta.', {
+        cogoToast.error('Hubo un problema al realizar la transferencia.', {
           position: 'bottom-right'
         })
         setLoading(false)
@@ -82,39 +86,38 @@ const CreateAccountModal: React.FC<IProps> = ({
       style={customStyles}
       contentLabel="Modal de creacion de cuentas."
     >
-      <h4>🏦 Nueva cuenta</h4>
+      <h4>🤝 Nueva transferencia</h4>
       <p>
-        Estas proximo a crear una cuenta; En ella podras depositar y gestionar tu dinero en la divisa que prefieras.
+        Estas proximo a enviar dinero; Recuerda que solo puede enviarse dinero entre cuentas de su misma divisa, como
+        en este caso <strong>{account.currency?.name}</strong>
       </p>
       <form 
         id="createAccountModalForm"
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <div className="form-group">
-          <label htmlFor="name">Nombre de la cuenta</label>
+          <label htmlFor="name">Direccion de deposito de la cuenta</label>
           <input
-            {...register('name')}
+            {...register('depositAddress', {
+              required: true
+            })}
             className="form-control"
           />
         </div>
         <div className="form-group mt-3">
-          <label htmlFor="currency_id">Divisa</label>
-          <select
-            {...register('currency_id', { required: true })}
+          <label htmlFor="amount">Monto</label>
+          <input
+            {...register('amount', {
+              required: true,
+              min: 1,
+              max: account.funds
+            })}
             className="form-control"
-          >
-            {currencies.map((c) => (
-              <option
-                value={c.id} 
-                key={`currency_createaccmodal_${c.id}`}
-              >
-                {c.name}
-              </option>
-            ))}
-          </select>
+            type="number"
+          />
         </div>
       </form>
-      <div className="createaccountmodal__footer">
+      <div className="transfermodal__footer">
         <button 
           type="button" 
           className="btn btn-brand-secondary" onClick={onClose}
@@ -133,7 +136,7 @@ const CreateAccountModal: React.FC<IProps> = ({
               <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Procesando...
             </>
-            : 'Crear cuenta'
+            : 'Enviar'
           }
         </button>
       </div>
@@ -141,4 +144,4 @@ const CreateAccountModal: React.FC<IProps> = ({
   )
 }
 
-export default CreateAccountModal;
+export default DepositModal;

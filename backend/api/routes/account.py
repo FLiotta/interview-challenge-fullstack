@@ -85,6 +85,62 @@ class AccountOperationsAPI(APIView):
 
         return Response({ 'data': operations_serialized.data })
 
+class AccountSendAPI(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self,request,account_id):
+        with transaction.atomic():
+            user_id = request.user.id
+            amount = request.data['amount']
+            deposit_address = request.data['deposit_address']
+
+            sender_account = Account.objects \
+                .select_for_update() \
+                .get(id=account_id)
+
+            receiver_account = Account.objects \
+                .select_for_update() \
+                .get(deposit_address=deposit_address)
+
+            if not sender_account.owner_id == user_id:
+                return Response({
+                    "error": "You can't perform this action.",
+                    "message": "This account belong to another user."
+                }, status=status.HTTP_403_FORBIDDEN)
+
+            elif sender_account.currency_id != receiver_account.currency_id:
+                return Response({
+                    "error": "Different currencies",
+                    "messages": "You can only transfer between accounts with the same currencies"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            elif sender_account.funds < amount:
+                remaining_funds = amount - sender_account.funds
+                return Response({
+                    "error": "Insufficient funds",
+                    "message": "You need ${0} extra to perform this action.".format(remaining_funds)
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            sender_account.funds = sender_account.funds - amount
+            receiver_account.funds = receiver_account.funds + amount
+
+            new_operation_payload = {
+                "amount": amount,
+                "receiver_account_id": receiver_account.id,
+                "sender_account_id": sender_account.id,
+                "currency_id": sender_account.currency_id,
+                "operation_type": "transfer"
+            }
+
+            new_operation = OperationSerializer(data=new_operation_payload)
+
+            if new_operation.is_valid():
+                sender_account.save()
+                receiver_account.save()
+                new_operation.save()
+
+                return Response({ "data": new_operation.data })
+
 class AccountDepositAPI(APIView):
     permission_classes = (IsAuthenticated, )
 
