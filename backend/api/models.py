@@ -30,12 +30,22 @@ class Account(models.Model):
     def __str__(self):
         return self.name
 
-    def get_operations(self):
+    def get_operations(self, limit=10, offset=0):
+        starts_at = offset * limit
+        ends_at = starts_at + limit
+
         operations = Operation.objects \
             .filter(Q(receiver_account_id=self.id) | Q(sender_account_id=self.id)) \
-            .order_by('-id')
+            .order_by('-id')[starts_at:ends_at]
 
-        return operations
+        operations_count = Operation.objects \
+            .filter(Q(receiver_account_id=self.id) | Q(sender_account_id=self.id)) \
+            .count()
+
+        return {
+            "operations": operations,
+            "count": operations_count
+        }
 
 
 class Operation(models.Model):

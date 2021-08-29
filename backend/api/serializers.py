@@ -19,6 +19,16 @@ class CurrencySerializer(serializers.Serializer):
     name = serializers.CharField()
     symbol = serializers.CharField()
 
+    def create(self, validated_data):
+        instance = Currency()
+
+        instance.name = validated_data.get('name')
+        instance.symbol = validated_data.get('symbol')
+
+        instance.save()
+
+        return instance
+
 class AccountSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     name = serializers.CharField(required=False)

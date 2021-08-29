@@ -13,6 +13,23 @@
   &__ctas {
     display: flex;
     align-items: center;
+    height: 100%;
+
+    &-cta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.5s all;
+      color: $brand-color;
+      padding: 8px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      height: 100%;
+
+      &:hover {
+        background-color: $brand_color_light;
+      }
+    }
 
     & > * {
       margin-left: 5px;

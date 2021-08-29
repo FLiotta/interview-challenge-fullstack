@@ -1,0 +1,63 @@
+@import '../../styles/colors.scss';
+
+.adminpanel {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    max-width: 500px;
+  }
+
+  &__description {
+    white-space: pre-wrap;
+    color: $brand_color;
+    margin-top: 15px;
+  }
+
+  &__panel {
+    width: 500px;
+    padding: 25px;
+    max-width: 100%;
+    border: 1px solid $brand_color;
+    border-radius: 8px;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+
+      &-title {
+        margin-bottom: 0px;
+      }
+
+      &-cta {
+        background-color: $brand_color_light;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.4s all;
+
+        &:hover {
+          background-color: $brand_color;
+          color: #fff;
+        }
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__row {
+    cursor: pointer;
+  }
+}

@@ -1,13 +1,16 @@
 // @Packages
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 // @Project
+import { fetchOperationsNextPage } from 'actions/selectedAccount';
 import { IThunkDispatch, Operation, Account } from 'interfaces';
 
 // @Own
 import './styles.scss';
+import cogoToast from 'cogo-toast';
+import { selectOperationsMetadata } from 'selectors/selectedAccounts';
 
 interface IProps {
   accountId?: number,
@@ -21,7 +24,24 @@ const Balance: React.FC<IProps> = ({
   operations
 }) => {
   const dispatch: IThunkDispatch = useDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+  const operationsMetadata = useSelector(selectOperationsMetadata);
 
+  const reachedEndOfResults = useMemo(() => {
+    return operations.length >= operationsMetadata.total
+  }, [operationsMetadata]);
+
+  const handleLoadMoreOperations = () => {
+    setLoading(true);
+
+    dispatch(fetchOperationsNextPage())
+      .then(() => setLoading(false))
+      .catch(() => {
+        cogoToast.error('Hubo un problema al buscar mas operaciones', {
+          position: 'bottom-right'
+        })
+      })
+  }
 
   return (
     <div className="balance">
@@ -53,10 +73,19 @@ const Balance: React.FC<IProps> = ({
             ))}
           </tbody>
         </table>
-        {!operations.length && (
+        
+        {!operations.length ? (
           <div className="balance__emptystate">
             <small>Aun no hay transacciones registradas.</small>
           </div>
+        ) : (
+          <button
+            className="border-0 btn btn-brand-secondary w-100"
+            onClick={handleLoadMoreOperations}
+            disabled={reachedEndOfResults || loading}
+          >
+            {reachedEndOfResults ? 'Has llegado al final' : 'Cargar mas resultados'}
+          </button>
         )}
       </div>
     </div>

@@ -17,8 +17,10 @@ class ProfileService extends ApiService {
     })
   }
 
-  getAccountOperations(accountId: number) {
-    return this.get(`/account/${accountId}/operations`);
+  getAccountOperations(accountId: number, page?: number, limit?: number) {
+    return this.get(`/account/${accountId}/operations`, {
+      params: { limit, page }
+    });
   }
 
   deposit(accountId: number | string, amount: number) {

@@ -48,6 +48,7 @@ ReactDOM.render(
     <Provider store={store}>
       <ReactTooltip place="right" effect="solid" id="ttip-solid-right" />
       <ReactTooltip place="top" effect="solid" id="ttip-solid-top" />
+      <ReactTooltip place="bottom" effect="solid" id="ttip-solid-bottom" />
       <AppRouter />
     </Provider>
   </React.StrictMode>,

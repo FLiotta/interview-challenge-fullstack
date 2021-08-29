@@ -1,6 +1,7 @@
 // @Packages
 import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 import { IoLogOutOutline } from 'react-icons/io5';
+import { BsGear } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 import { JsxElement } from 'typescript';
 import { useHistory } from 'react-router-dom';
@@ -19,14 +20,24 @@ import { IThunkDispatch } from 'interfaces';
 interface Option {
   title: string
   action: () => void
-  icon?: ReactElement | JsxElement | ReactNode
+  icon?: ReactElement | JsxElement | ReactNode,
+  onlyStaff?: boolean
 }
 
 const Menu: React.FC<any> = () => {
   const dispatch: IThunkDispatch = useDispatch();
   const history = useHistory();
+  const profile = useSelector(selectProfile);
 
   const options: Option[] = [
+    {
+      title: 'Backoffice',
+      action: () => {
+        history.push('/panel')
+      },
+      icon: <BsGear />,
+      onlyStaff: true
+    },
     {
       title: 'Cerrar sesión',
       action: () => {
@@ -39,12 +50,25 @@ const Menu: React.FC<any> = () => {
 
   return (
     <div className="profilebadge__menu">
-      {options.map((opt) => (
-        <div className="profilebadge__menu-item" onClick={opt.action}>
-          {opt.icon}
-          <p className="profilebadge__menu-item-text">{opt.title}</p>
-        </div>
-      ))}
+      {options
+        .filter((opt) => {
+          if(opt.onlyStaff && !profile.is_staff) {
+            return false;
+          }
+
+          return true;
+        })
+        .map((opt) => (
+          <div
+            className="profilebadge__menu-item" 
+            onClick={opt.action}
+            key={`menuitem__${opt.title}`}
+          >
+            {opt.icon}
+            <p className="profilebadge__menu-item-text">{opt.title}</p>
+          </div>
+        ))
+      }
     </div>
   )
 }

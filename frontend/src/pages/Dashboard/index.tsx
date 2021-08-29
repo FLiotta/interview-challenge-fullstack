@@ -57,7 +57,9 @@ const Dashboard: React.FC<any> = () => {
 
   const onAccountSelect = (acc: Account) => {
     dispatch(selectAccount(acc));
-    dispatch(fetchOperations())
+    setTimeout(() => {
+      dispatch(fetchOperations())
+    }, 1);
   }
 
   const onDepositModalSuccess = (amountDeposited: number) => {

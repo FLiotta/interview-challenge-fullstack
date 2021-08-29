@@ -11,6 +11,7 @@ import { fetchCurrencies } from 'actions/app';
 
 import BaseLayout from 'components/BaseLayout';
 import ProtectedRoute from 'components/ProtectedRoute';
+import Panel from 'pages/Panel';
 import Auth from 'pages/Auth';
 import Dashboard from 'pages/Dashboard';
 
@@ -32,6 +33,7 @@ const AppRouter: React.FC<any> = () => {
         <Route path="/auth" component={Auth} />
         <BaseLayout>
           <ProtectedRoute path="/" component={Dashboard} exact />
+          <ProtectedRoute path="/panel" component={Panel} />
         </BaseLayout>
       </Switch>
     </BrowserRouter>

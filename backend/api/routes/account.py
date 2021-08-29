@@ -74,16 +74,26 @@ class AccountOperationsAPI(APIView):
         user_id = request.user.id
         account = Account.objects.get(id=account_id)
         
+        limit = int(request.query_params.get('limit', 10))
+        offset = int(request.query_params.get('page', 0))
+
         if not account.owner_id == user_id:
             return Response({
                 "error": "You can't perform this action.",
                 "message": "Only the account's owner can request its transactions."
             }, status=status.HTTP_403_FORBIDDEN)
 
-        operations = account.get_operations()
-        operations_serialized = OperationSerializer(operations, many=True)
+        operations = account.get_operations(limit,offset)
+        operations_serialized = OperationSerializer(operations.get('operations'), many=True)
 
-        return Response({ 'data': operations_serialized.data })
+        return Response({
+            "data": operations_serialized.data, 
+            "metadata": {
+                "total": operations.get('count'),
+                "page": offset,
+                "limit": limit
+            }
+        })
 
 class AccountSendAPI(APIView):
     permission_classes = (IsAuthenticated, )

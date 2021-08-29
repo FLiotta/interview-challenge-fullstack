@@ -7,6 +7,12 @@ import { AnyAction } from "redux";
 
 export interface IThunkDispatch extends ThunkDispatch<IStoreState, any, AnyAction> {}
 
+export interface Metadata {
+  total: number
+  limit?: number
+  page?: number
+}
+
 export interface BackendResponse<T> {
   error?: string
   message?: string

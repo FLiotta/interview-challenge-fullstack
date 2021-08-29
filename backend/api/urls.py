@@ -11,6 +11,7 @@ urlpatterns = [
 
     # Data
     path('data/currencies', data.CurrencyAPI.as_view(), name="currency"),
+    path('data/currencies/<int:currency_id>', data.CurrencyDetailAPI.as_view(), name="currency_detail"),
 
     # Profile
     path('profile', profile.ProfileAPI.as_view(), name="profile"),
