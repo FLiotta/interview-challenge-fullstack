@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 
 // @Project
+import CreateAccountModal from 'components/CreateAccountModal';
 import DepositModal from 'components/DepositModal';
 import { selectProfile } from 'selectors/profile';
 import AccountSelector from 'components/AccountSelector';
 import Balance from 'components/Balance';
 import { Account } from 'interfaces';
-import { openDepositModal } from 'components/DepositModal/actions';
+import { fetchAccounts, updateAccountValue } from 'actions/accounts';
 import { selectAccount, fetchOperations } from 'actions/selectedAccount';
 import { selectOperations, selectSelectedAccount } from 'selectors/selectedAccounts';
 
@@ -23,7 +24,7 @@ const Dashboard: React.FC<any> = () => {
   const selectedOperations = useSelector(selectOperations);
 
   const [depositModalVisible, setDepositModalVisible] = useState<boolean>(false);
-
+  const [createAccountModalVisible, setCreateAccountModalVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,8 +57,16 @@ const Dashboard: React.FC<any> = () => {
     dispatch(fetchOperations())
   }
 
-  const onDepositModalSuccess = () => {
-    dispatch(fetchOperations());
+  const onDepositModalSuccess = (amountDeposited: number) => {
+    if(selectedAccount) {
+      dispatch(fetchOperations());
+      dispatch(updateAccountValue(selectedAccount.id, amountDeposited, 'increase'))
+    }
+  }
+
+  const onCreateAccountModalSuccess = () => {
+    dispatch(fetchAccounts())
+    setCreateAccountModalVisible(false);
   }
 
   return (
@@ -70,6 +79,19 @@ const Dashboard: React.FC<any> = () => {
           account={selectedAccount}
         />
       )}
+      <CreateAccountModal
+        visible={createAccountModalVisible}
+        onClose={()=> setCreateAccountModalVisible(false)}
+        onSuccess={onCreateAccountModalSuccess}
+      />
+      <div className="dashboard__upper-ctas">
+        <button 
+          className="btn btn-link btn-sm text-decoration-none"
+          onClick={() => setCreateAccountModalVisible(true)}
+        >
+          Crear cuenta
+        </button>
+      </div>
       <AccountSelector onAccountSelect={onAccountSelect} />
       <div className="dashboard__ctas btn-group">
         <button

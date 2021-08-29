@@ -20,12 +20,28 @@ class CurrencySerializer(serializers.Serializer):
 
 class AccountSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    name = serializers.CharField()
-    funds = serializers.IntegerField()
-    currency = CurrencySerializer()
+    name = serializers.CharField(required=False)
+    funds = serializers.IntegerField(required=False)
+    currency = CurrencySerializer(read_only=True)
+    currency_id = serializers.IntegerField(write_only=True)
     owner_id = serializers.IntegerField()
-    created_at = serializers.DateField()
-    updated_at = serializers.DateField()
+    created_at = serializers.DateField(required=False)
+    updated_at = serializers.DateField(required=False)
+
+    def create(self, validated_data):
+        instance = Account()
+
+        instance.owner_id = validated_data.get('owner_id')
+        instance.funds = 0
+        instance.currency_id = validated_data.get('currency_id')
+        instance.name = validated_data.get('name')
+        instance.save()
+
+        return instance
+
+    
+        
+
 
 class OperationSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()

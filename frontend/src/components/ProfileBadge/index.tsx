@@ -1,5 +1,5 @@
 // @Packages
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { useSelector, useDispatch } from 'react-redux';
 import { JsxElement } from 'typescript';
@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import cn from 'classnames';
 
 // @Project
+import { useClickOutside } from 'hooks/useClickOutside';
 import { disconnect } from 'actions/session';
 import { selectProfile } from 'selectors/profile';
 import Avatar from 'components/Avatar';
@@ -50,12 +51,18 @@ const Menu: React.FC<any> = () => {
 
 const ProfileBadge: React.FC<any> = () => {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const profileBadgeRef = useRef<any>();
   const profile = useSelector(selectProfile);
+
+  useClickOutside(profileBadgeRef, () => { 
+    setMenuVisible(false)
+  });
 
   return (
     <div
       className={cn("profilebadge", { "profilebadge--active": menuVisible })}
       onClick={() => setMenuVisible(!menuVisible)}
+      ref={profileBadgeRef}
     >
       {menuVisible && <Menu />}
       <p className="profilebadge__username">{profile.first_name} {profile.last_name}</p>

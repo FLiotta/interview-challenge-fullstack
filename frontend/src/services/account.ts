@@ -6,6 +6,10 @@ class ProfileService extends ApiService {
     return this.get('/account');
   }
 
+  create(currency_id: number, name?: string) {
+    return this.post('/account', { currency_id, name });
+  }
+
   getAccountOperations(accountId: number) {
     return this.get(`/account/${accountId}/operations`);
   }

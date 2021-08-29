@@ -2,28 +2,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .serializers import UserSerializer, AccountSerializer, OperationSerializer 
-from .models import Account, Operation
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Q
 
-class AuthAPI(APIView):
-    def get(self, request):
-
-        return Response({'ping': 'pong'})
-
-class ProfileAPI(APIView):
-    permission_classes = (IsAuthenticated, )
-
-    def get(self, request):
-        user_id = request.user.id
-        user = User.objects.get(id=user_id)
-        user_serialized = UserSerializer(user)
-
-        return Response({
-            'data': user_serialized.data
-        })
+from ..models import Account, Operation
+from ..serializers import UserSerializer, AccountSerializer, OperationSerializer 
 
 class AccountAPI(APIView):
     permission_classes = (IsAuthenticated, )
@@ -39,6 +23,30 @@ class AccountAPI(APIView):
                 'total': len(accounts_serialized.data)
             }
         })
+
+    def post(self, request):
+        user_id = request.user.id
+
+        new_account_payload = {
+            "currency_id": request.data["currency_id"],
+            "name": request.data["name"],
+            "owner_id": user_id
+        }
+
+        new_account = AccountSerializer(data=new_account_payload)
+        
+        if new_account.is_valid():
+            new_account.save()
+
+            return Response({
+                "data": new_account.data
+            })
+        else:
+            return Response({
+                "error": "Account can't be created",
+                "message": "Please check parameters sent",
+                "data": new_account.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 class AccountDetailAPI(APIView):
     permission_classes = (IsAuthenticated, )
@@ -112,9 +120,3 @@ class AccountDepositAPI(APIView):
                     "error": "Transaction can't be commited",
                     "message": "Please revalidate your inputs."
                 }, status=status.HTTP_400_BAD_REQUEST)
-
-
-#/account
-#/account/:id
-#/account/:id/send
-#/account/:id/deposit

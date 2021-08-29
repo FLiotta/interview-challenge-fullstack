@@ -3,15 +3,20 @@ import React, { useState } from 'react';
 import Modal, { Styles } from 'react-modal';
 import { useForm } from 'react-hook-form';
 import cogoToast from 'cogo-toast';
+import { useSelector } from 'react-redux';
 
 // @Project
 import AccountService from 'services/account';
 import { Account } from 'interfaces';
+import { selectCurrencies } from 'selectors/app';
 
 // @Own
 import './styles.scss';
 
-interface FormPayload { amount: number }
+interface FormPayload { 
+  name?: string
+  currency_id: number
+}
 
 const customStyles: Styles = {
   content: {
@@ -35,43 +40,38 @@ Modal.setAppElement('#root');
 interface IProps {
   visible: boolean,
   onClose: () => void
-  onSuccess: (depositedAmount: number) => void
-  account: Account
+  onSuccess: () => void
 }
 
 const DepositModal: React.FC<IProps> = ({
   visible,
   onClose,
   onSuccess,
-  account
 }) => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [loading, setLoading] = useState<boolean>(false);
+  const currencies = useSelector(selectCurrencies);
 
   const handleFormSubmit = (payload: FormPayload) => {
-    if(account) {
-      const amount = Number(payload.amount)
+    const { name, currency_id } = payload;
+    setLoading(true);
 
-      setLoading(true);
-
-      AccountService.deposit(account.id, amount)
-        .then((resp) => {
-          console.warn("Se esta simulando un tiempo de 2s solo por fines esteticos =)")
-          cogoToast.success('Deposito acreditado con exito', {
-            position: 'bottom-right'
-          })
-
-          onSuccess(amount);
-          setValue('amount', undefined);
-          setLoading(false)
+    AccountService.create(currency_id, name)
+      .then((resp) => {
+        console.warn("Se esta simulando un tiempo de 2s solo por fines esteticos =)")
+        cogoToast.success('Cuenta creada con exito!', {
+          position: 'bottom-right'
         })
-        .catch(() => {
-          cogoToast.error('Hubo un problema con el procesamiento de tu deposito.', {
-            position: 'bottom-right'
-          })
-          setLoading(false)
-        });
-    }
+        reset()
+        onSuccess();
+        setLoading(false)
+      })
+      .catch(() => {
+        cogoToast.error('Hubo un problema con la creacion de tu cuenta.', {
+          position: 'bottom-right'
+        })
+        setLoading(false)
+      });
   }
 
 
@@ -80,29 +80,40 @@ const DepositModal: React.FC<IProps> = ({
       isOpen={visible}
       onRequestClose={onClose}
       style={customStyles}
-      contentLabel="Modal de depositos"
+      contentLabel="Modal de creacion de cuentas."
     >
-      <h4>💰 Depositos</h4>
+      <h4>🏦 Nueva cuenta</h4>
       <p>
-        Estas proximo a hacer un deposito en tu cuenta #{account?.id} ({account?.name}).
-        <br/><br/>
-        Ingresa acontinuacion el valor deseado:
+        Estas proximo a crear una cuenta; En ella podras depositar y gestionar tu dinero en la divisa que prefieras.
       </p>
       <form 
-        id="depositModalForm"
+        id="createAccountModalForm"
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <div className="form-group">
+          <label htmlFor="name">Nombre de la cuenta</label>
           <input
-            {...register('amount', { required: true })}
-            placeholder="e.g: 1500"
+            {...register('name')}
             className="form-control"
           />
         </div>
+        <div className="form-group mt-3">
+          <label htmlFor="currency_id">Divisa</label>
+          <select
+            {...register('currency_id', { required: true })}
+            className="form-control"
+          >
+            {currencies.map((c) => (
+              <option
+                value={c.id} 
+                key={`currency_createaccmodal_${c.id}`}
+              >
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </form>
-
-      <p className="depositmodal__payment">Se usara el metodo de pago configurado en tu cuenta por defecto para procesar la operacion.</p>
-
       <div className="depositmodal__footer">
         <button 
           type="button" 
@@ -115,14 +126,14 @@ const DepositModal: React.FC<IProps> = ({
           type="submit" 
           className="btn btn-brand"
           disabled={loading}
-          form="depositModalForm"
+          form="createAccountModalForm"
         >
           {loading
             ? <>
               <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Procesando...
             </>
-            : 'Depositar'
+            : 'Crear cuenta'
           }
         </button>
       </div>

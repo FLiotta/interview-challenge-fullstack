@@ -1,10 +1,12 @@
 // @Packages
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
 import ReactTooltip from 'react-tooltip';
+import dayjs from 'dayjs';
 
 // @Project
+import { useClickOutside } from 'hooks/useClickOutside';
 import { Account } from 'interfaces';
 import { selectAccounts } from 'selectors/accounts';
 
@@ -53,6 +55,11 @@ const AccountSelector: React.FC<IAccountSelector> = ({
 }) => {  
   const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+  const AccountSelectorRef = useRef<any>();
+
+  useClickOutside(AccountSelectorRef, () => {
+    setDropdownVisible(false)
+  });
 
   const handleOnAccountSelect = (acc: Account) => {
     setDropdownVisible(false);
@@ -68,6 +75,7 @@ const AccountSelector: React.FC<IAccountSelector> = ({
     <div
       className="account-selector"
       onClick={() => setDropdownVisible(!dropdownVisible)}
+      ref={AccountSelectorRef}
     >
       {dropdownVisible && (
         <AccountSelectorList
@@ -86,8 +94,7 @@ const AccountSelector: React.FC<IAccountSelector> = ({
             <div>
               <h4 className="account-selector__name" data-for="ttip-solid-right" data-tip="Nombre de la cuenta">{selectedAccount.name}</h4>
               <p className="account-selector__date" data-for="ttip-solid-right" data-tip="Fecha de creacion">
-                {/* TODO: Cambiar por la fecha real cuando se edite el modelo */}
-                <small>18 Feb. 1999</small>
+                <small>{dayjs(selectedAccount.created_at).format('DD MMM YYYY')}</small>
               </p>
             </div>
             <h4 className="account-selector__funds">

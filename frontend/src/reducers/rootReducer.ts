@@ -5,21 +5,21 @@ import { combineReducers } from 'redux';
 import session, { IState as IStateSession } from './session';
 import profile, { IState as IStateProfile } from './profile';
 import accounts, { IState as IStateAccount } from './accounts';
-import depositmodal, { IState as IStateDepositModal } from 'components/DepositModal/reducers';
 import selectedAccount, { IState as IStateSelectedAccount } from './selectedAccount';
+import app, { IState as IStateApp } from './app';
 
 export interface IStoreState {
   session: IStateSession
+  app: IStateApp,
   profile: IStateProfile
   accounts: IStateAccount
-  depositmodal: IStateDepositModal
   selectedAccount: IStateSelectedAccount
 }
 
 export default combineReducers<IStoreState>({
   session,
+  app,
   profile,
   accounts,
-  depositmodal,
   selectedAccount
 });

@@ -16,7 +16,6 @@ const Navbar: React.FC<any> = () => {
     <div className="navbar">
       <Logo brandColor tag="h6" />
       <div className="navbar__ctas">
-        <button className="btn btn-sm btn-link text-decoration-none">Nueva cuenta</button>
         <ProfileBadge />
       </div>
     </div>
