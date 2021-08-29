@@ -15,7 +15,10 @@ const Navbar: React.FC<any> = () => {
   return (
     <div className="navbar">
       <Logo brandColor tag="h6" />
-      <ProfileBadge />
+      <div className="navbar__ctas">
+        <button className="btn btn-sm btn-link text-decoration-none">Nueva cuenta</button>
+        <ProfileBadge />
+      </div>
     </div>
   )
 }

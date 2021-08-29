@@ -6,6 +6,7 @@ from .serializers import UserSerializer, AccountSerializer, OperationSerializer
 from .models import Account, Operation
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import Q
 
 class AuthAPI(APIView):
     def get(self, request):
@@ -51,12 +52,30 @@ class AccountDetailAPI(APIView):
                 "error": "You can't perform this action.",
                 "message": "This account belong to another user."
             }, status=status.HTTP_403_FORBIDDEN)
-        
+
         account_serialized = AccountSerializer(account)
 
         return Response({
             'data': account_serialized.data
         })
+
+class AccountOperationsAPI(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, account_id):
+        user_id = request.user.id
+        account = Account.objects.get(id=account_id)
+        
+        if not account.owner_id == user_id:
+            return Response({
+                "error": "You can't perform this action.",
+                "message": "Only the account's owner can request its transactions."
+            }, status=status.HTTP_403_FORBIDDEN)
+
+        operations = account.get_operations()
+        operations_serialized = OperationSerializer(operations, many=True)
+
+        return Response({ 'data': operations_serialized.data })
 
 class AccountDepositAPI(APIView):
     permission_classes = (IsAuthenticated, )

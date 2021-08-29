@@ -6,14 +6,14 @@ import session, { IState as IStateSession } from './session';
 import profile, { IState as IStateProfile } from './profile';
 import accounts, { IState as IStateAccount } from './accounts';
 import depositmodal, { IState as IStateDepositModal } from 'components/DepositModal/reducers';
-import balance, { IState as IStateBalance } from 'components/Balance/reducer';
+import selectedAccount, { IState as IStateSelectedAccount } from './selectedAccount';
 
 export interface IStoreState {
   session: IStateSession
   profile: IStateProfile
   accounts: IStateAccount
   depositmodal: IStateDepositModal
-  balance: IStateBalance
+  selectedAccount: IStateSelectedAccount
 }
 
 export default combineReducers<IStoreState>({
@@ -21,5 +21,5 @@ export default combineReducers<IStoreState>({
   profile,
   accounts,
   depositmodal,
-  balance
+  selectedAccount
 });

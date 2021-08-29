@@ -1,59 +1,53 @@
 // @Packages
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 // @Project
-import { IThunkDispatch } from 'interfaces';
-import { selectSessionId } from 'selectors/session';
+import { IThunkDispatch, Operation, Account } from 'interfaces';
 
 // @Own
-import { selectOperations } from './selectors';
-import MockData from './mock_data.json';
 import './styles.scss';
 
 interface IProps {
-  accountId?: number
+  accountId?: number,
+  operations: Operation[],
+  account?: Account
 }
 
 const Balance: React.FC<IProps> = ({
   accountId,
+  account,
+  operations
 }) => {
   const dispatch: IThunkDispatch = useDispatch();
 
-  const sessionId = useSelector(selectSessionId);
-  const operations = useSelector(selectOperations);
-
-  useEffect(() => {
-
-  }, [accountId]);
 
   return (
     <div className="balance">
       <div className="balance__body">
-        <table className="table table-borderless table-responsive">
+        <table className="table table-borderless table-responsive table-hover">
           <thead>
             <tr>
               <th>N°</th>
               <th>Fecha</th>
-              <th>Receptor</th>
               <th>Tipo</th>
               <th>Total</th>
             </tr>
           </thead>
           <tbody>
             {operations.map((op) => (
-              <tr key={`op_${op.id}`}>
+              <tr key={`op_${op.id}`} className="balance__row">
                 <th scope="row">{op.id}</th>
-                <td>{op.date}</td>
-                <td>{op.receiver.id === sessionId ? 'You' : op.receiver.username}</td>
+                <td>{op?.created_at}</td>
+                <td>{op?.operation_type === 'transfer' ? 'Transferencia' : 'Deposito'}</td>
                 <td
                   className={cn({
-                    'balance__negative-amount': op.receiver.id !== sessionId,
-                    'balance__positive-amount': op.receiver.id === sessionId,
+                    'balance__negative-amount': op.receiver_account_id !== account?.id,
+                    'balance__positive-amount': op.receiver_account_id === account?.id,
                   })}
                 >
-                  {op.amount}
+                  {account?.currency?.symbol} {op.amount}
                 </td>
               </tr>
             ))}

@@ -7,10 +7,9 @@ import cogoToast from 'cogo-toast';
 
 // @Project
 import AccountService from 'services/account';
+import { Account } from 'interfaces';
 
 // @Own
-import { closeDepositModal } from './actions';
-import { selectSelectedAccount, selectVisible } from './selectors';
 import './styles.scss';
 
 interface FormPayload { amount: number }
@@ -34,32 +33,36 @@ const customStyles: Styles = {
 
 Modal.setAppElement('#root');
 
-const DepositModal: React.FC<any> = () => {
-  const { register, handleSubmit, setValue } = useForm();
-  const dispatch = useDispatch();
+interface IProps {
+  visible: boolean,
+  onClose: () => void
+  onSuccess: () => void
+  account: Account
+}
 
+const DepositModal: React.FC<IProps> = ({
+  visible,
+  onClose,
+  onSuccess,
+  account
+}) => {
+  const { register, handleSubmit, setValue } = useForm();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const selectedAccount = useSelector(selectSelectedAccount);
-  const isVisible = useSelector(selectVisible);
-
   const handleFormSubmit = (payload: FormPayload) => {
-    if(selectedAccount) {
+    if(account) {
       const { amount } = payload;
 
       setLoading(true);
-
-      AccountService.deposit(selectedAccount.id, Number(amount))
-        .then(() => {
-          // Tiempo simulado con fines de muestra
-          return setTimeout(() => Promise.resolve(), 5000);
-        })
-        .then(() => {
+      console.log(account);
+      AccountService.deposit(account.id, Number(amount))
+        .then((resp) => {
           console.warn("Se esta simulando un tiempo de 2s solo por fines esteticos =)")
           cogoToast.success('Deposito acreditado con exito', {
             position: 'bottom-right'
           })
-
+          console.log(resp);
+          onSuccess();
           setValue('amount', undefined);
           setLoading(false)
         })
@@ -72,20 +75,17 @@ const DepositModal: React.FC<any> = () => {
     }
   }
 
-  const handleClose = () => {
-    dispatch(closeDepositModal());
-  }
 
   return (
     <Modal
-      isOpen={isVisible}
-      onRequestClose={handleClose}
+      isOpen={visible}
+      onRequestClose={onClose}
       style={customStyles}
       contentLabel="Modal de depositos"
     >
       <h4>💰 Depositos</h4>
       <p>
-        Estas proximo a hacer un deposito en tu cuenta #{selectedAccount?.id} ({selectedAccount?.name}) en {selectedAccount?.currency?.name}.
+        Estas proximo a hacer un deposito en tu cuenta #{account?.id} ({account?.name}).
         <br/><br/>
         Ingresa acontinuacion el valor deseado:
       </p>
@@ -107,7 +107,7 @@ const DepositModal: React.FC<any> = () => {
       <div className="depositmodal__footer">
         <button 
           type="button" 
-          className="btn btn-brand-secondary" onClick={handleClose}
+          className="btn btn-brand-secondary" onClick={onClose}
           disabled={loading}
         >
           Cancelar

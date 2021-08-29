@@ -39,15 +39,19 @@ export interface Account {
   currency_id?: number,
   funds: number,
   owner_id?: number,
-  owner?: any
+  owner?: any,
+  created_at?: Date,
+  updated_at?: Date
 }
 
 export interface Operation {  
   id: number
   amount: number
-  currency: Currency
+  currency?: Currency
   operation_type: 'transfer' | 'deposit'
-  receiver: any
-  sender: any
-  date: string | Date
+  receiver?: any
+  sender?: any
+  receiver_account_id?: number
+  sender_account_id?: number
+  created_at?: Date
 }

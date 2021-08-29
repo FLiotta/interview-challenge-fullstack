@@ -6,7 +6,11 @@ class ProfileService extends ApiService {
     return this.get('/account');
   }
 
-  deposit(accountId: number, amount: number) {
+  getAccountOperations(accountId: number) {
+    return this.get(`/account/${accountId}/operations`);
+  }
+
+  deposit(accountId: number | string, amount: number) {
     return this.patch(`/account/${accountId}/deposit`, { amount })
   }
 }

@@ -19,6 +19,10 @@
     margin-top: 10px;
   }
 
+  &__row {
+    cursor: pointer;
+  }
+
   &__emptystate {
     display: flex;
     justify-content: center;

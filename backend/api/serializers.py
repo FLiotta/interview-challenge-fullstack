@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Account, Currency, Operation
@@ -21,14 +23,18 @@ class AccountSerializer(serializers.Serializer):
     name = serializers.CharField()
     funds = serializers.IntegerField()
     currency = CurrencySerializer()
+    owner_id = serializers.IntegerField()
+    created_at = serializers.DateField()
+    updated_at = serializers.DateField()
 
 class OperationSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     amount = serializers.IntegerField()
-    currency_id = serializers.IntegerField()
+    currency_id = serializers.IntegerField(write_only=True)
     operation_type = serializers.CharField()
     sender_account_id = serializers.IntegerField(allow_null=True, required=False)
     receiver_account_id = serializers.IntegerField()
+    created_at = serializers.DateField(read_only=True)
 
     class Meta:
         model = Operation

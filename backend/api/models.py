@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -17,12 +20,22 @@ class Account(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False)
     currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING, null=False)
     funds = models.PositiveIntegerField(null=True, default=0)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
 
     class Meta:
         db_table = "account"
     
     def __str__(self):
         return self.name
+
+    def get_operations(self):
+        operations = Operation.objects \
+            .filter(Q(receiver_account_id=self.id) | Q(sender_account_id=self.id)) \
+            .order_by('-id')
+
+        return operations
+
 
 class Operation(models.Model):
     OPERATION_TYPES = [
@@ -35,6 +48,7 @@ class Operation(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.DO_NOTHING, null=False)
     operation_type = models.CharField(max_length=50, null=False, choices=OPERATION_TYPES)
     amount = models.PositiveIntegerField(null=False)
+    created_at = models.DateField(auto_now_add=True)
 
     class Meta:
         db_table = "operation"

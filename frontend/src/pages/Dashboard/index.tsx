@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 
 // @Project
+import DepositModal from 'components/DepositModal';
 import { selectProfile } from 'selectors/profile';
 import AccountSelector from 'components/AccountSelector';
 import Balance from 'components/Balance';
 import { Account } from 'interfaces';
 import { openDepositModal } from 'components/DepositModal/actions';
+import { selectAccount, fetchOperations } from 'actions/selectedAccount';
+import { selectOperations, selectSelectedAccount } from 'selectors/selectedAccounts';
 
 // @Own
 import './styles.scss';
@@ -16,7 +19,11 @@ import cogoToast from 'cogo-toast';
 
 const Dashboard: React.FC<any> = () => {
   const profile = useSelector(selectProfile);
-  const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
+  const selectedAccount = useSelector(selectSelectedAccount);
+  const selectedOperations = useSelector(selectOperations);
+
+  const [depositModalVisible, setDepositModalVisible] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,7 +34,7 @@ const Dashboard: React.FC<any> = () => {
 
   const handleDeposit = () => { 
     if(selectedAccount) {
-      dispatch(openDepositModal(selectedAccount));
+      setDepositModalVisible(true)
     }
   }
 
@@ -44,9 +51,26 @@ const Dashboard: React.FC<any> = () => {
 
   const handleSend = () => { }
 
+  const onAccountSelect = (acc: Account) => {
+    dispatch(selectAccount(acc));
+    dispatch(fetchOperations())
+  }
+
+  const onDepositModalSuccess = () => {
+    dispatch(fetchOperations());
+  }
+
   return (
     <div className="dashboard">
-      <AccountSelector onAccountSelect={setSelectedAccount} />
+      {selectedAccount && (
+        <DepositModal
+          visible={depositModalVisible}
+          onClose={() => setDepositModalVisible(false)}
+          onSuccess={onDepositModalSuccess}
+          account={selectedAccount}
+        />
+      )}
+      <AccountSelector onAccountSelect={onAccountSelect} />
       <div className="dashboard__ctas btn-group">
         <button
           disabled={!selectedAccount} 
@@ -72,7 +96,10 @@ const Dashboard: React.FC<any> = () => {
           Depositar
         </button>
       </div>
-      <Balance />
+      <Balance
+        operations={selectedOperations}
+        account={selectedAccount}
+      />
     </div>
   )
 }

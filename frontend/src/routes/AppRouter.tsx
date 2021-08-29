@@ -8,8 +8,6 @@ import { selectSessionToken } from 'selectors/session';
 import { fetchProfile } from 'actions/profile';
 import { fetchAccounts } from 'actions/accounts';
 
-import DepositModal from 'components/DepositModal';
-
 import BaseLayout from 'components/BaseLayout';
 import ProtectedRoute from 'components/ProtectedRoute';
 import Auth from 'pages/Auth';
@@ -31,7 +29,6 @@ const AppRouter: React.FC<any> = () => {
       <Switch>
         <Route path="/auth" component={Auth} />
         <BaseLayout>
-          <DepositModal />
           <ProtectedRoute path="/" component={Dashboard} exact />
         </BaseLayout>
       </Switch>
