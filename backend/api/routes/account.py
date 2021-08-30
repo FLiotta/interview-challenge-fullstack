@@ -95,6 +95,7 @@ class AccountOperationsAPI(APIView):
             }
         })
 
+
 class AccountSendAPI(APIView):
     permission_classes = (IsAuthenticated, )
 
@@ -106,7 +107,8 @@ class AccountSendAPI(APIView):
 
             sender_account = Account.objects \
                 .select_for_update() \
-                .get(id=account_id)
+                .get(id=account_id) \
+                .update()
 
             receiver_account = Account.objects \
                 .select_for_update() \

@@ -5,7 +5,8 @@ import { AnyAction } from "redux"
 import { Account } from 'interfaces';
 import {
   ACCOUNTS_FETCH,
-  ACCOUNTS_UPDATE_PRICE
+  ACCOUNTS_UPDATE_PRICE,
+  ACCOUNTS_APPEND
 } from 'actions/accounts';
 
 export interface IState { 
@@ -36,6 +37,14 @@ export default (state = defaultState, action: AnyAction) => {
         ...state,
         data: tempState.data
       };
+    case ACCOUNTS_APPEND:
+      return {
+        data: [
+          ...state.data,
+          ...action.payload
+        ],
+        total: state.total + action.payload.length
+      }
     default:
       return state;
   } 

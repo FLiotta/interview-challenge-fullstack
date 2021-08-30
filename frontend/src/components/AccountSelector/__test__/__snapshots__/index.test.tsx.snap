@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountSelector component Should match snapshot 1`] = `
+<div>
+  <div
+    class="account-selector"
+    data-testid="account-selector-testid"
+  >
+    <div
+      class="account-selector__image"
+      data-for="ttip-solid-top"
+    />
+    <div
+      class="account-selector__placeholder"
+    >
+      <h4
+        class="account-selector__placeholder-text"
+      >
+        Selecciona una cuenta
+      </h4>
+    </div>
+  </div>
+</div>
+`;

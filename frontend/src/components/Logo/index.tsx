@@ -22,7 +22,8 @@ const Logo: React.FC<IProps> = ({
     return React.createElement(tag, {
       className: cn("logo", className, {
         "logo--brand-color": brandColor
-      })
+      }),
+      ['data-testid']: 'logo-testid',
     }, 'PiggyBank'
     );
   }

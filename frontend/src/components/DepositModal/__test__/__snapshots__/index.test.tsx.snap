@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DepositModal component Should match snapshot 1`] = `
+<body
+  class="ReactModal__Body--open"
+>
+  <div
+    data-react-modal-body-trap=""
+    style="position: absolute; opacity: 0;"
+    tabindex="0"
+  />
+  <div
+    data-react-modal-body-trap=""
+    style="position: absolute; opacity: 0;"
+    tabindex="0"
+  />
+  <div
+    class="ReactModalPortal"
+  >
+    <div
+      class="ReactModal__Overlay"
+      style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(0, 0, 0, 0.3); z-index: 15;"
+    >
+      <div
+        aria-label="Modal de depositos"
+        aria-modal="true"
+        class="ReactModal__Content"
+        role="dialog"
+        style="position: absolute; top: 50%; left: 50%; border: 1px solid #ccc; background: rgb(255, 255, 255); overflow: auto; border-radius: 4px; outline: none; padding: 20px; margin-right: -50%; transform: translate(-50%, -50%); max-width: 100%; width: 550px;"
+        tabindex="-1"
+      >
+        <h4>
+          💰 Depositos
+        </h4>
+        <p>
+          Estas proximo a hacer un deposito en tu cuenta #
+          1
+           (
+          ).
+          <br />
+          <br />
+          Ingresa acontinuacion el valor deseado:
+        </p>
+        <form
+          id="depositModalForm"
+        >
+          <div
+            class="form-group"
+          >
+            <input
+              class="form-control"
+              name="amount"
+              placeholder="e.g: 1500"
+            />
+          </div>
+        </form>
+        <p
+          class="depositmodal__payment"
+        >
+          Se usara el metodo de pago configurado en tu cuenta por defecto para procesar la operacion.
+        </p>
+        <div
+          class="depositmodal__footer"
+        >
+          <button
+            class="btn btn-brand-secondary"
+            data-testid="depositmodal-closebtn-testid"
+            type="button"
+          >
+            Cancelar
+          </button>
+          <button
+            class="btn btn-brand"
+            data-testid="depositmodal-submitbtn-testid"
+            form="depositModalForm"
+            type="submit"
+          >
+            Depositar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

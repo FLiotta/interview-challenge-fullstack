@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfileBadge component Should match snapshot 1`] = `
+<div>
+  <div
+    class="profilebadge"
+    data-testid="profilebadge-testid"
+  >
+    <p
+      class="profilebadge__username"
+    >
+       
+    </p>
+    <div
+      class="avatar"
+      data-testid="avatar-testid"
+      style="width: 30px; height: 30px;"
+    >
+      <div
+        class="avatar__fill avatar__fill--1"
+        data-testid="avatar-fill-testid"
+      />
+    </div>
+  </div>
+</div>
+`;

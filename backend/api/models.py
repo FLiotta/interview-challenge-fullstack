@@ -34,13 +34,11 @@ class Account(models.Model):
         starts_at = offset * limit
         ends_at = starts_at + limit
 
-        operations = Operation.objects \
-            .filter(Q(receiver_account_id=self.id) | Q(sender_account_id=self.id)) \
-            .order_by('-id')[starts_at:ends_at]
+        query = Operation.objects \
+            .filter(Q(receiver_account_id=self.id) | Q(sender_account_id=self.id))
 
-        operations_count = Operation.objects \
-            .filter(Q(receiver_account_id=self.id) | Q(sender_account_id=self.id)) \
-            .count()
+        operations = query.order_by('-id')[starts_at:ends_at]
+        operations_count = query.count()
 
         return {
             "operations": operations,

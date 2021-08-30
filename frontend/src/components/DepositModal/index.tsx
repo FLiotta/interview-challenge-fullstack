@@ -30,7 +30,9 @@ const customStyles: Styles = {
   }
 };
 
-Modal.setAppElement('#root');
+if (process.env.NODE_ENV !== 'test') {
+  Modal.setAppElement('#root');
+}
 
 interface IProps {
   visible: boolean,
@@ -80,6 +82,7 @@ const DepositModal: React.FC<IProps> = ({
       isOpen={visible}
       onRequestClose={onClose}
       style={customStyles}
+      ariaHideApp={false}
       contentLabel="Modal de depositos"
     >
       <h4>💰 Depositos</h4>
@@ -107,6 +110,7 @@ const DepositModal: React.FC<IProps> = ({
         <button 
           type="button" 
           className="btn btn-brand-secondary" onClick={onClose}
+          data-testid="depositmodal-closebtn-testid"
           disabled={loading}
         >
           Cancelar
@@ -115,6 +119,7 @@ const DepositModal: React.FC<IProps> = ({
           type="submit" 
           className="btn btn-brand"
           disabled={loading}
+          data-testid="depositmodal-submitbtn-testid"
           form="depositModalForm"
         >
           {loading

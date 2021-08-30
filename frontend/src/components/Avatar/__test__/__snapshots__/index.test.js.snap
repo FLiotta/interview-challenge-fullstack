@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Avatar Component Should match snapshot 1`] = `
+<div>
+  <div
+    class="avatar"
+    data-testid="avatar-testid"
+  >
+    <div
+      class="avatar__fill avatar__fill--1"
+      data-testid="avatar-fill-testid"
+    />
+  </div>
+</div>
+`;

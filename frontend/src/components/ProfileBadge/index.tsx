@@ -17,39 +17,25 @@ import Avatar from 'components/Avatar';
 import './styles.scss';
 import { IThunkDispatch } from 'interfaces';
 
-interface Option {
+export interface Option {
   title: string
   action: () => void
   icon?: ReactElement | JsxElement | ReactNode,
   onlyStaff?: boolean
 }
 
-const Menu: React.FC<any> = () => {
-  const dispatch: IThunkDispatch = useDispatch();
-  const history = useHistory();
+interface IMenuProps {
+  options: Option[]
+}
+
+export const Menu: React.FC<IMenuProps> = ({ options }) => {
   const profile = useSelector(selectProfile);
 
-  const options: Option[] = [
-    {
-      title: 'Backoffice',
-      action: () => {
-        history.push('/panel')
-      },
-      icon: <BsGear />,
-      onlyStaff: true
-    },
-    {
-      title: 'Cerrar sesión',
-      action: () => {
-        dispatch(disconnect())
-        history.push('/auth')
-      },
-      icon: <IoLogOutOutline />
-    },
-  ]
-
   return (
-    <div className="profilebadge__menu">
+    <div
+      className="profilebadge__menu"
+      data-testid="profilebadge-menu-testid"
+    >
       {options
         .filter((opt) => {
           if(opt.onlyStaff && !profile.is_staff) {
@@ -77,18 +63,40 @@ const ProfileBadge: React.FC<any> = () => {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const profileBadgeRef = useRef<any>();
   const profile = useSelector(selectProfile);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useClickOutside(profileBadgeRef, () => { 
     setMenuVisible(false)
   });
 
+  const options: Option[] = [
+    {
+      title: 'Backoffice',
+      action: () => {
+        history.push('/panel')
+      },
+      icon: <BsGear />,
+      onlyStaff: true
+    },
+    {
+      title: 'Cerrar sesión',
+      action: () => {
+        dispatch(disconnect())
+        history.push('/auth')
+      },
+      icon: <IoLogOutOutline />
+    },
+  ]
+
   return (
     <div
+      data-testid="profilebadge-testid"
       className={cn("profilebadge", { "profilebadge--active": menuVisible })}
       onClick={() => setMenuVisible(!menuVisible)}
       ref={profileBadgeRef}
     >
-      {menuVisible && <Menu />}
+      {menuVisible && <Menu options={options} />}
       <p className="profilebadge__username">{profile.first_name} {profile.last_name}</p>
       <Avatar userId={profile.id} height={30} width={30} />
     </div>

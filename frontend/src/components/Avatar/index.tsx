@@ -17,10 +17,15 @@ const Avatar: React.FC<IProps> = ({
 }) => {
   return (
     <div
+      data-testid="avatar-testid"
       className="avatar" 
       style={{ width, height }}
     >
-      <div className={`avatar__fill avatar__fill--${userId}`}></div> 
+      <div
+        className={`avatar__fill avatar__fill--${userId}`}
+        data-testid="avatar-fill-testid"
+      >
+      </div> 
     </div>
   )
 }

@@ -30,11 +30,15 @@ const AccountSelectorList: React.FC<IAccountSelectorDropdown> = ({
   const accounts: Account[] = useSelector(selectAccounts);
 
   return (
-    <div className="account-dropdown">
+    <div 
+      className="account-dropdown"
+      data-testid="account-dropdown-testid"
+    >
       {accounts.map((acc) => (
         <div
           key={`${acc.id}`}
           onClick={() => onAccountSelect(acc)}
+          data-testid="account-item-testid"
           className={cn("account-dropdown__item", {
             "account-dropdown__item--selected": acc.id === selectedAccountId
           })}
@@ -74,6 +78,7 @@ const AccountSelector: React.FC<IAccountSelector> = ({
   return (
     <div
       className="account-selector"
+      data-testid="account-selector-testid"
       onClick={() => setDropdownVisible(!dropdownVisible)}
       ref={AccountSelectorRef}
     >
