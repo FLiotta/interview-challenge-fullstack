@@ -1,13 +1,14 @@
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
+from ..permissions import IsSafeMethodOrAdminRequest
 from ..models import Currency
 from ..serializers import CurrencySerializer
 
 class CurrencyAPI(APIView):
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsSafeMethodOrAdminRequest, )
 
     def get(self, request):
         currencies = Currency.objects.all().order_by('id')
@@ -43,7 +44,7 @@ class CurrencyAPI(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 class CurrencyDetailAPI(APIView):
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsSafeMethodOrAdminRequest, )
 
     def get(self, request, currency_id):
         currency = Currency.objects.get(id=currency_id)
