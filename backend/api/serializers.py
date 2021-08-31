@@ -1,18 +1,35 @@
 from __future__ import annotations
 
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import Account, Currency, Operation
 from .utils import generate_address
 
 class UserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
-    username = serializers.CharField()
-    first_name = serializers.CharField()
-    last_name = serializers.CharField()
-    email = serializers.CharField()
+    username = serializers.CharField(required=True, allow_null=False)
+    first_name = serializers.CharField(required=True, allow_null=False)
+    last_name = serializers.CharField(required=True, allow_null=False)
+    email = serializers.CharField(required=True, allow_null=False)
+    password = serializers.CharField(required=True, allow_null=False, write_only=True)
     is_superuser = serializers.BooleanField()
     is_staff = serializers.BooleanField()
+
+    def create(self, validated_data):
+        instance = User()
+
+        instance.username = validated_data.get('username')
+        instance.first_name = validated_data.get('first_name')
+        instance.last_name = validated_data.get('last_name')
+        instance.email = validated_data.get('email')
+        instance.password = make_password(validated_data.get('password'))
+        instance.is_superuser = validated_data.get('is_superuser')
+        instance.is_staff = validated_data.get('is_staff')
+
+        instance.save()
+
+        return instance
 
 class CurrencySerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()

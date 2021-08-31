@@ -3,11 +3,13 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .routes import data, account, profile
+from .routes import data, account, profile, auth
 
 urlpatterns = [
+    # Auth
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('signup', auth.AuthCreateView.as_view(), name="signup_view"),
 
     # Data
     path('data/currencies', data.CurrencyAPI.as_view(), name="currency"),

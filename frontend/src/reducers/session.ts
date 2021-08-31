@@ -5,7 +5,8 @@ import { AnyAction } from "redux"
 import {
   SESSION_LOG_IN,
   SESSION_RECONNECT,
-  SESSION_DISCONNECT
+  SESSION_DISCONNECT,
+  SESSION_SIGN_UP
 } from 'actions/session';
 
 export interface IState {
@@ -20,6 +21,7 @@ export default (state = defaultState, action: AnyAction) => {
   switch(action.type) {
     case SESSION_LOG_IN:
     case SESSION_RECONNECT:
+    case SESSION_SIGN_UP:
       return action.payload;
     case SESSION_DISCONNECT:
       return defaultState;

@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 import Cookie from 'universal-cookie';
 
 // @Project
-import AuthService from 'services/auth';
+import AuthService, { SignupPayload } from 'services/auth';
 import { IThunkDispatch } from 'interfaces';
 
 // @Initialization
@@ -14,6 +14,7 @@ const cookie = new Cookie();
 export const SESSION_LOG_IN = '[SESSION] LOG IN';
 export const SESSION_RECONNECT = '[SESSION] RECONNECT';
 export const SESSION_DISCONNECT = '[SESSION] DISCONNECT';
+export const SESSION_SIGN_UP = '[SESSION] SIGN UP';
 
 export const logIn = (username: string, password: string) => {
   return (dispatch: IThunkDispatch) => {
@@ -34,6 +35,28 @@ export const logIn = (username: string, password: string) => {
           }
         });
       })
+  }
+}
+
+export const signUp = (signupPayload: SignupPayload) => {
+  return (dispatch: IThunkDispatch) => {
+
+    return AuthService.signup(signupPayload)
+      .then((resp: AxiosResponse) => {
+        cookie.set('token', resp.data.access);
+        cookie.set('refresh_token', resp.data.refresh);
+        console.log(resp.data);
+        const decoded_token: any = jwtDecode(resp.data.access);
+
+        dispatch({
+          type: SESSION_SIGN_UP,
+          payload: {
+            token: resp.data.access,
+            refresh_token: resp.data.refresh,
+            id: decoded_token.user_id
+          }
+        });
+      });
   }
 }
 
