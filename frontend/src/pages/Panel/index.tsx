@@ -51,7 +51,7 @@ const Panel: React.FC<any> = () => {
       <div className="adminpanel__header">
         <button
           className="btn btn-sm btn-brand align-self-start"
-          onClick={history.goBack}
+          onClick={() => history.go(-1)}
         >
           Volver
         </button>

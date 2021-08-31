@@ -28,8 +28,8 @@ class AccountAPI(APIView):
         user_id = request.user.id
 
         new_account_payload = {
-            "currency_id": request.data["currency_id"],
-            "name": request.data["name"],
+            "currency_id": request.data.get("currency_id"),
+            "name": request.data.get("name"),
             "owner_id": user_id
         }
 
@@ -95,20 +95,18 @@ class AccountOperationsAPI(APIView):
             }
         })
 
-
 class AccountSendAPI(APIView):
     permission_classes = (IsAuthenticated, )
 
     def post(self,request,account_id):
         with transaction.atomic():
             user_id = request.user.id
-            amount = request.data['amount']
-            deposit_address = request.data['deposit_address']
+            amount = int(request.data.get('amount'))
+            deposit_address = request.data.get('deposit_address')
 
             sender_account = Account.objects \
                 .select_for_update() \
-                .get(id=account_id) \
-                .update()
+                .get(id=account_id)
 
             receiver_account = Account.objects \
                 .select_for_update() \
@@ -119,7 +117,11 @@ class AccountSendAPI(APIView):
                     "error": "You can't perform this action.",
                     "message": "This account belong to another user."
                 }, status=status.HTTP_403_FORBIDDEN)
-
+            elif sender_account.deposit_address == receiver_account.deposit_address:
+                return Response({
+                    "error": "Same account?",
+                    "messages": "...You just can't"
+                }, status=status.HTTP_400_BAD_REQUEST)
             elif sender_account.currency_id != receiver_account.currency_id:
                 return Response({
                     "error": "Different currencies",
@@ -159,7 +161,7 @@ class AccountDepositAPI(APIView):
     def patch(self, request, account_id):
         with transaction.atomic():
             user_id = request.user.id
-            amount = request.data['amount']
+            amount = request.data.get("amount")
             account = Account.objects.get(id=account_id)
 
             if not account.owner_id == user_id:

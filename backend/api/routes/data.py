@@ -21,8 +21,8 @@ class CurrencyAPI(APIView):
         }) 
     
     def post(self, request):
-        currency_name = request.data['name']
-        currency_symbol = request.data['symbol']
+        currency_name = request.data.get('name')
+        currency_symbol = request.data.get('symbol')
 
         new_currency_payload = {
             "name": currency_name,
@@ -40,7 +40,7 @@ class CurrencyAPI(APIView):
                 "error": "Currency can't be created",
                 "message": "Please revalidate the parameters sent",
                 "data": new_currency.errors
-            })
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 class CurrencyDetailAPI(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly, )

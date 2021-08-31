@@ -4,7 +4,6 @@ from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
 
-# Create your models here.
 class Currency(models.Model):
     name = models.CharField(max_length=25, null=False, unique=True)
     symbol = models.CharField(max_length=5, default="$")
