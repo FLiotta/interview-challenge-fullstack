@@ -20,7 +20,7 @@ const defaultState: IState = {
   total: 0
 }
 
-export default (state = defaultState, action: AnyAction) => {
+const accountsReducer = (state = defaultState, action: AnyAction) => {
   switch(action.type) {
     case ACCOUNTS_FETCH:
       return action.payload;
@@ -52,3 +52,5 @@ export default (state = defaultState, action: AnyAction) => {
       return state;
   } 
 }
+
+export default accountsReducer;

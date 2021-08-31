@@ -11,7 +11,6 @@ import { Account } from 'interfaces';
 import { selectAccounts, selectAccountsTotal } from 'selectors/accounts';
 
 // @Own
-import MockData from './mock_data.json';
 import './styles.scss';
 import cogoToast from 'cogo-toast';
 

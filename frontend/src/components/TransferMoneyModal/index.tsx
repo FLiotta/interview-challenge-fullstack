@@ -3,16 +3,13 @@ import React, { useState } from 'react';
 import Modal, { Styles } from 'react-modal';
 import { useForm } from 'react-hook-form';
 import cogoToast from 'cogo-toast';
-import { useSelector } from 'react-redux';
 
 // @Project
 import AccountService from 'services/account';
 import { Account } from 'interfaces';
-import { selectCurrencies } from 'selectors/app';
 
 // @Own
 import './styles.scss';
-import selectedAccount from 'reducers/selectedAccount';
 
 interface FormPayload { 
   depositAddress: string

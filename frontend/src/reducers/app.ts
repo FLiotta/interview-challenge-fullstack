@@ -13,7 +13,7 @@ const defaultState: IState = {
   currencies: []
 }
 
-export default (state = defaultState, action: AnyAction) => {
+const appReducer = (state = defaultState, action: AnyAction) => {
   switch (action.type) {
     case APP_FETCH_CURRENCIES:
       return {
@@ -24,3 +24,5 @@ export default (state = defaultState, action: AnyAction) => {
       return state;
   }
 }
+
+export default appReducer;

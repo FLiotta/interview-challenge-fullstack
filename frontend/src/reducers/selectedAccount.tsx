@@ -29,7 +29,7 @@ const defaultState: IState = {
   }
 }
 
-export default (state = defaultState, action: AnyAction) => {
+const selectedAccountReducer = (state = defaultState, action: AnyAction) => {
   switch(action.type) {
     case SELECTEDACCOUNT_SELECT:
       return {
@@ -58,3 +58,4 @@ export default (state = defaultState, action: AnyAction) => {
   }
 }
 
+export default selectedAccountReducer;

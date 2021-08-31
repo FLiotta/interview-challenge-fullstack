@@ -17,7 +17,7 @@ export interface IState {
 
 const defaultState: Partial<IState> = { }
 
-export default (state = defaultState, action: AnyAction) => {
+const sessionReducer = (state = defaultState, action: AnyAction) => {
   switch(action.type) {
     case SESSION_LOG_IN:
     case SESSION_RECONNECT:
@@ -29,3 +29,5 @@ export default (state = defaultState, action: AnyAction) => {
       return state;
   } 
 }
+
+export default sessionReducer;

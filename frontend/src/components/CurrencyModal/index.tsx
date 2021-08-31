@@ -3,17 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Modal, { Styles } from 'react-modal';
 import { useForm } from 'react-hook-form';
 import cogoToast from 'cogo-toast';
-import { useSelector } from 'react-redux';
 
 // @Project
 import DataService from 'services/data';
 import { UpdateCreateCurrencyPayload } from 'services/data';
-import { Account, Currency } from 'interfaces';
-import { selectCurrencies } from 'selectors/app';
+import { Currency } from 'interfaces';
 
 // @Own
 import './styles.scss';
-import selectedAccount from 'reducers/selectedAccount';
 
 interface FormPayload { 
   name: string,

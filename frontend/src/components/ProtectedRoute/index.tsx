@@ -1,11 +1,7 @@
 // @Packages
 import cogoToast from 'cogo-toast';
-import { useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps, Route } from 'react-router-dom';
 import Cookie from 'universal-cookie';
-
-// @Project
-import { selectSessionToken } from 'selectors/session';
 
 interface IProps { 
   component: any,

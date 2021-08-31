@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 
 // @Project
 import AccountService from 'services/account';
-import { Account } from 'interfaces';
 import { selectCurrencies } from 'selectors/app';
 
 // @Own

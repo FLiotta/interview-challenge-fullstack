@@ -1,9 +1,6 @@
-// @Packages
-import { AxiosResponse } from 'axios';
-
 // @Project
 import AccountService from 'services/account';
-import { BackendResponse, IThunkDispatch, Account, Operation } from 'interfaces';
+import { BackendResponse, IThunkDispatch, Account } from 'interfaces';
 import { IStoreState } from 'reducers/rootReducer';
 
 
