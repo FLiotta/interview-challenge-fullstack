@@ -5,7 +5,8 @@ import { AnyAction } from 'redux';
 import { 
   SELECTEDACCOUNT_SELECT, 
   SELECTEDACCOUNT_FETCH_OPERATIONS,
-  SELECTEDACCOUNT_FETCH_MORE_OPERATIONS
+  SELECTEDACCOUNT_FETCH_MORE_OPERATIONS,
+  SELECTEDACCOUNT_RESTART
 } from 'actions/selectedAccount';
 import { Operation, Account } from 'interfaces';
 
@@ -50,6 +51,8 @@ export default (state = defaultState, action: AnyAction) => {
         ],
         operationsMetadata: action.payload.operationsMetadata
       }
+    case SELECTEDACCOUNT_RESTART:
+      return defaultState;
     default:
       return state
   }

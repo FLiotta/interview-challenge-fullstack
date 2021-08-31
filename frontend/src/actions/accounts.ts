@@ -9,6 +9,7 @@ import { BackendResponse, IThunkDispatch, Account } from 'interfaces';
 export const ACCOUNTS_FETCH = '[ACCOUNTS] FETCH';
 export const ACCOUNTS_UPDATE_PRICE = '[ACCOUNTS] UPDATE PRICE';
 export const ACCOUNTS_APPEND = '[ACCOUNTS] APPEND ACCOUNTS';
+export const ACCOUNTS_RESTART = '[ACCOUNTS] RESTART';
 
 export const fetchAccounts = () => {
   return (dispatch: IThunkDispatch) => {
@@ -45,4 +46,8 @@ export const updateAccountValue = (
     amount,
     operation
   }
+});
+
+export const restartAccounts = () => ({
+  type: ACCOUNTS_RESTART
 });

@@ -10,6 +10,7 @@ import { IStoreState } from 'reducers/rootReducer';
 export const SELECTEDACCOUNT_SELECT = '[SELECTED ACCOUNT] SELECT';
 export const SELECTEDACCOUNT_FETCH_OPERATIONS = '[SELECTED ACCOUNT] FETCH OPERATIONS';
 export const SELECTEDACCOUNT_FETCH_MORE_OPERATIONS = '[SELECTED ACCOUNT] FETCH MORE OPERATIONS'
+export const SELECTEDACCOUNT_RESTART = '[SELECTED ACCOUNT] RESTART';
 
 export const selectAccount = (acc: Account) => ({
   type: SELECTEDACCOUNT_SELECT,
@@ -62,3 +63,7 @@ export const fetchOperationsNextPage = () => {
       .catch(console.log)
   }
 }
+
+export const restartSelectedAccount = () => ({
+  type: SELECTEDACCOUNT_RESTART
+});

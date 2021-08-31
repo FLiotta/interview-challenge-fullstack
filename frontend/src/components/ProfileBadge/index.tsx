@@ -16,6 +16,9 @@ import Avatar from 'components/Avatar';
 // @Own
 import './styles.scss';
 import { IThunkDispatch } from 'interfaces';
+import { restartSelectedAccount } from 'actions/selectedAccount';
+import { restartAccounts } from 'actions/accounts';
+import { resetProfile } from 'actions/profile';
 
 export interface Option {
   title: string
@@ -83,6 +86,9 @@ const ProfileBadge: React.FC<any> = () => {
       title: 'Cerrar sesión',
       action: () => {
         dispatch(disconnect())
+        dispatch(restartSelectedAccount());
+        dispatch(restartAccounts());
+        dispatch(resetProfile())
         history.push('/auth')
       },
       icon: <IoLogOutOutline />

@@ -8,11 +8,12 @@ import dayjs from 'dayjs';
 // @Project
 import { useClickOutside } from 'hooks/useClickOutside';
 import { Account } from 'interfaces';
-import { selectAccounts } from 'selectors/accounts';
+import { selectAccounts, selectAccountsTotal } from 'selectors/accounts';
 
 // @Own
 import MockData from './mock_data.json';
 import './styles.scss';
+import cogoToast from 'cogo-toast';
 
 interface IAccountSelectorDropdown {
   selectedAccountId?: number,
@@ -59,6 +60,7 @@ const AccountSelector: React.FC<IAccountSelector> = ({
 }) => {  
   const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+  const accountsTotal: number = useSelector(selectAccountsTotal);
   const AccountSelectorRef = useRef<any>();
 
   useClickOutside(AccountSelectorRef, () => {
@@ -71,6 +73,18 @@ const AccountSelector: React.FC<IAccountSelector> = ({
     setSelectedAccount(acc);
   }
 
+  const handleOnAccountSelectorClick = () => {
+    if(!dropdownVisible && accountsTotal > 0) {
+      setDropdownVisible(true);
+    } else if (!dropdownVisible && !accountsTotal) {
+      cogoToast.warn("Debes crear una cuenta primero.", {
+        position: 'bottom-right'
+      });
+    } else {
+      setDropdownVisible(false);
+    }
+  }
+
   useEffect(() => {
     ReactTooltip.rebuild();
   }, [selectedAccount])
@@ -79,7 +93,7 @@ const AccountSelector: React.FC<IAccountSelector> = ({
     <div
       className="account-selector"
       data-testid="account-selector-testid"
-      onClick={() => setDropdownVisible(!dropdownVisible)}
+      onClick={handleOnAccountSelectorClick}
       ref={AccountSelectorRef}
     >
       {dropdownVisible && (

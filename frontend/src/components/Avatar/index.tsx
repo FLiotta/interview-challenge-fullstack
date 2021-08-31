@@ -22,7 +22,7 @@ const Avatar: React.FC<IProps> = ({
       style={{ width, height }}
     >
       <div
-        className={`avatar__fill avatar__fill--${userId}`}
+        className={`avatar__fill avatar__fill--${userId.toString().split("").pop()}`}
         data-testid="avatar-fill-testid"
       >
       </div> 

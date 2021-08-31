@@ -6,7 +6,8 @@ import { Account } from 'interfaces';
 import {
   ACCOUNTS_FETCH,
   ACCOUNTS_UPDATE_PRICE,
-  ACCOUNTS_APPEND
+  ACCOUNTS_APPEND,
+  ACCOUNTS_RESTART
 } from 'actions/accounts';
 
 export interface IState { 
@@ -45,6 +46,8 @@ export default (state = defaultState, action: AnyAction) => {
         ],
         total: state.total + action.payload.length
       }
+    case ACCOUNTS_RESTART:
+      return defaultState;
     default:
       return state;
   } 

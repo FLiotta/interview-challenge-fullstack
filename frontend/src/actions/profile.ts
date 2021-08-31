@@ -7,6 +7,7 @@ import { BackendResponse, IThunkDispatch, Profile } from 'interfaces';
 
 
 export const PROFILE_FETCH = '[PROFILE] FETCH';
+export const PROFILE_RESET = '[PROFILE] RESET';
 
 export const fetchProfile = () => {
   return (dispatch: IThunkDispatch) => {
@@ -22,3 +23,7 @@ export const fetchProfile = () => {
       })
   }
 }
+
+export const resetProfile = () => ({
+  type: PROFILE_RESET
+});

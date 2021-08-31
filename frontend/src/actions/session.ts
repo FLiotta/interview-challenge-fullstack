@@ -1,5 +1,4 @@
 // @Packages
-import { ThunkDispatch } from 'redux-thunk';
 import { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import Cookie from 'universal-cookie';
@@ -45,7 +44,7 @@ export const signUp = (signupPayload: SignupPayload) => {
       .then((resp: AxiosResponse) => {
         cookie.set('token', resp.data.access);
         cookie.set('refresh_token', resp.data.refresh);
-        console.log(resp.data);
+
         const decoded_token: any = jwtDecode(resp.data.access);
 
         dispatch({
